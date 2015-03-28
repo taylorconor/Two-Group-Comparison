@@ -16,7 +16,7 @@ shinyServer(function(input, output) {
    
   output$distPlot <- renderPlot({
 
-    d <- read.csv("~/Downloads/lab4times.csv")[[1]]
+    d <- read.csv("lab4times.csv")[[1]]
     bootres <- boot(data=d, statistic=meanboot, R=input$samples)
     
     d <- density(bootres$t)
