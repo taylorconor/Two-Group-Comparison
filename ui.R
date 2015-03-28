@@ -7,22 +7,39 @@
 
 library(shiny)
 
-shinyUI(pageWithSidebar(
+shinyUI(fluidPage(
   
   # Application title
-  headerPanel("Two Group Study"),
+  title = "Two Group Study",
+  h1("Two Group Study"),
   
-  # Sidebar with a slider input for number of bins
-  sidebarPanel(
-    sliderInput("samples",
-                "Number of samples:",
-                min = 2,
-                max = 500,
-                value = 150)
-  ),
-  
-  # Show a plot of the generated distribution
-  mainPanel(
-    plotOutput("distPlot")
+  fluidRow(
+    column(4,
+      br(),
+      sliderInput("samples",
+                  "Number of samples:",
+                  min = 2,
+                  max = 500,
+                  value = 150)
+    ),
+    column(8,
+      plotOutput("distPlot"),
+      fluidRow(
+        column(6,
+          sliderInput("xscale",
+                      "X scale",
+                      min = 0,
+                      max = 250,
+                      value = c(6,7))
+        ),
+        column(6,
+          sliderInput("yscale",
+                      "Y scale",
+                      min = 0,
+                      max = 250,
+                      value = c(0,25))
+        )  
+      )
+    )
   )
 ))

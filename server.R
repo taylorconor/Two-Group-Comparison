@@ -20,7 +20,7 @@ shinyServer(function(input, output) {
     bootres <- boot(data=d, statistic=meanboot, R=input$samples)
     
     d <- density(bootres$t)
-    plot(d, main="", ylim=c(0,50), xlim=c(6.6,7))
+    plot(d, main="", ylim=input$yscale, xlim=input$xscale)
     polygon(d, border="blue")
   })
   
