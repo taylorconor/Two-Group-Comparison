@@ -23,7 +23,10 @@ shinyUI(fluidPage(
                   "Number of samples:",
                   min = 2,
                   max = 500,
-                  value = 150)
+                  value = 150),
+      numericInput("importantdiff",
+                  "Important difference:",
+                  value = 10)
     ),
     column(8,
       plotOutput("distPlot"),
@@ -31,7 +34,7 @@ shinyUI(fluidPage(
         column(6,
           sliderInput("xscale",
                       "X scale",
-                      min = 0,
+                      min = -10,
                       max = 10,
                       value = c(6,7))
         ),
