@@ -16,6 +16,9 @@ shinyUI(fluidPage(
   fluidRow(
     column(4,
       br(),
+      fileInput('file', 
+                'Choose file to upload', 
+                accept = c( 'text/csv', '.csv' )),
       sliderInput("samples",
                   "Number of samples:",
                   min = 2,
@@ -29,7 +32,7 @@ shinyUI(fluidPage(
           sliderInput("xscale",
                       "X scale",
                       min = 0,
-                      max = 250,
+                      max = 10,
                       value = c(6,7))
         ),
         column(6,

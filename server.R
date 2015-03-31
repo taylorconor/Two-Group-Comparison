@@ -16,15 +16,31 @@ shinyServer(function(input, output) {
   
   xscale <- reactive({ as.numeric(input$xscale) })
   yscale <- reactive({ as.numeric(input$yscale) })
-  graph <- reactive({ 
-    d <- read.csv("lab4times.csv")[[1]]
+  graph1 <- reactive({ 
+    file <- input$file
+    if (is.null(file))
+      return(NULL)
+    d <- read.csv(file$datapath)[[1]]
+    
     bootres <- boot(data=d, statistic=meanboot, R=input$samples)
-    return(density(bootres$t))
+    return(bootres$t)
+  })
+  graph2 <- reactive({ 
+    file <- input$file
+    if (is.null(file))
+      return(NULL)
+    d <- read.csv(file$datapath)[[2]]
+    
+    bootres <- boot(data=d, statistic=meanboot, R=input$samples)
+    return(bootres$t)
   })
   
   output$distPlot <- renderPlot({
-    plot(graph(), main="", ylim=yscale(), xlim=xscale())
-    polygon(graph(), border="blue")
+      print(mean(graph1()))
+      print(mean(graph2()))
+      plot(density(graph1()), main="", ylim=yscale(), xlim=xscale())
+      polygon(density(graph1()), border="blue")
+      polygon(density(graph2()), border="red")
   })
   
 })
