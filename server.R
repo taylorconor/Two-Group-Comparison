@@ -13,15 +13,18 @@ meanboot <- function (x,indices) {
 }
 
 shinyServer(function(input, output) {
-   
-  output$distPlot <- renderPlot({
-
+  
+  xscale <- reactive({ as.numeric(input$xscale) })
+  yscale <- reactive({ as.numeric(input$yscale) })
+  graph <- reactive({ 
     d <- read.csv("lab4times.csv")[[1]]
     bootres <- boot(data=d, statistic=meanboot, R=input$samples)
-    
-    d <- density(bootres$t)
-    plot(d, main="", ylim=input$yscale, xlim=input$xscale)
-    polygon(d, border="blue")
+    return(density(bootres$t))
+  })
+  
+  output$distPlot <- renderPlot({
+    plot(graph(), main="", ylim=yscale(), xlim=xscale())
+    polygon(graph(), border="blue")
   })
   
 })
