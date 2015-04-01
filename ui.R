@@ -26,25 +26,31 @@ shinyUI(fluidPage(
                   value = 150),
       numericInput("importantdiff",
                   "Important difference:",
-                  value = 10)
+                  value = 0.1)
     ),
     column(8,
       plotOutput("distPlot"),
       fluidRow(
-        column(6,
-          sliderInput("xscale",
-                      "X scale",
-                      min = -10,
-                      max = 10,
-                      value = c(6,7))
+        column(3,
+          numericInput("xmin",
+                      "X min",
+                      value = -0.2)
         ),
-        column(6,
-          sliderInput("yscale",
-                      "Y scale",
-                      min = 0,
-                      max = 250,
-                      value = c(0,25))
-        )  
+        column(3,
+          numericInput("xmax",
+                       "X max",
+                       value = 0.4)
+        ),
+        column(3,
+          numericInput("ymin",
+                      "Y min",
+                      value = 0)
+        ),
+        column(3,
+          numericInput("ymax",
+                      "Y max",
+                      value = 8)
+        )
       )
     )
   )

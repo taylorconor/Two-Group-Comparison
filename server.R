@@ -21,13 +21,15 @@ shift <- function (data, n) {
 
 shinyServer(function(input, output) {
   
-  xscale <- reactive({ as.numeric(input$xscale) })
-  yscale <- reactive({ as.numeric(input$yscale) })
+  xmin <- reactive({ as.numeric(input$xmin) })
+  xmax <- reactive({ as.numeric(input$xmax) })
+  ymin <- reactive({ as.numeric(input$ymin) })
+  ymax <- reactive({ as.numeric(input$ymax) })
   importantdiff <- reactive({ as.numeric(input$importantdiff )})
   graph1 <- reactive({ 
     file <- input$file
     if (is.null(file))
-      return(NULL)
+      file$datapath <- "rand.csv"
     d <- read.csv(file$datapath)[[1]]
     
     bootres <- boot(data=d, statistic=meanboot, R=input$samples)
@@ -36,7 +38,7 @@ shinyServer(function(input, output) {
   graph2 <- reactive({ 
     file <- input$file
     if (is.null(file))
-      return(NULL)
+      file$datapath <- "rand.csv"
     d <- read.csv(file$datapath)[[2]]
     
     bootres <- boot(data=d, statistic=meanboot, R=input$samples)
@@ -44,9 +46,12 @@ shinyServer(function(input, output) {
   })
   
   output$distPlot <- renderPlot({
-      plot(density(graph1()), main="", ylim=yscale(), xlim=xscale())
-      polygon(density(graph1()), border="blue")
-      polygon(density(shift(graph2(), importantdiff())), border="red")
+    xpt <- (mean(graph2())-mean(graph1())) + 1.96*(sd(graph1())/sqrt(1000))
+    plot(density(graph1()), main="", ylim=c(ymin(),ymax()), xlim=c(xmin(),xmax()))
+    polygon(density(shift(graph2(), importantdiff())), col="yellow")
+    rect(xmin(),ymin(),xpt,ymax(),col="white",border="white")
+    polygon(density(graph1()), border="blue")
+    polygon(density(shift(graph2(), importantdiff())), border="red")
   })
   
 })
