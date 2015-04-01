@@ -29,29 +29,38 @@ shinyServer(function(input, output) {
   graph1 <- reactive({ 
     file <- input$file
     if (is.null(file))
-      file$datapath <- "rand.csv"
-    d <- read.csv(file$datapath)[[1]]
+      d <- rnorm(1000)
+    else
+      d <- read.csv(file$datapath)[[1]]
     
-    bootres <- boot(data=d, statistic=meanboot, R=input$samples)
-    return(bootres$t)
+    return(d)
   })
   graph2 <- reactive({ 
     file <- input$file
     if (is.null(file))
-      file$datapath <- "rand.csv"
-    d <- read.csv(file$datapath)[[2]]
+      d <- rnorm(1000)
+    else
+      d <- read.csv(file$datapath)[[2]]
     
-    bootres <- boot(data=d, statistic=meanboot, R=input$samples)
-    return(bootres$t)
+    return(d)
   })
   
   output$distPlot <- renderPlot({
-    xpt <- (mean(graph2())-mean(graph1())) + 1.96*(sd(graph1())/sqrt(1000))
-    plot(density(graph1()), main="", ylim=c(ymin(),ymax()), xlim=c(xmin(),xmax()))
-    polygon(density(shift(graph2(), importantdiff())), col="yellow")
-    rect(xmin(),ymin(),xpt,ymax(),col="white",border="white")
-    polygon(density(graph1()), border="blue")
-    polygon(density(shift(graph2(), importantdiff())), border="red")
+    g1 <- replicate(1000, mean(sample(graph1(), input$samples)))
+    g2 <- replicate(1000, mean(sample(graph2(), input$samples)))
+    
+    xpt <- sd(g1) * 2
+    xpt <- (mean(g1)-mean(g2)) + 1.96*(sd(graph1())/sqrt(input$samples))
+    
+    #print(xpt)
+    #print(sd(g1))
+    
+    plot(density(g1), main="", ylim=c(ymin(),ymax()), xlim=c(xmin(),xmax()))
+    
+    polygon(density(shift(g2, importantdiff())), col="yellow")
+    rect(xmin()-abs(xmin()),ymin(),xpt,ymax()+abs(ymax()),col="white",border="white")
+    polygon(density(g1), border="blue")
+    polygon(density(shift(g2, importantdiff())), border="red")
   })
   
 })
