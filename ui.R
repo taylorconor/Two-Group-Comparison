@@ -10,7 +10,7 @@ library(shiny)
 shinyUI(fluidPage(
   
   # Application title
-  title = "Two Group Study",
+  title = "Two Group Comparison",
   h1("Two Group Study"),
   
   fluidRow(
@@ -30,6 +30,8 @@ shinyUI(fluidPage(
     ),
     column(8,
       plotOutput("distPlot"),
+      h3(textOutput("percentage"), align="center"),
+      br(),
       fluidRow(
         column(3,
           numericInput("xmin",
