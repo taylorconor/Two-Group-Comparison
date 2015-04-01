@@ -50,14 +50,11 @@ shinyServer(function(input, output) {
     g2 <- replicate(1000, mean(sample(graph2(), input$samples)))
     
     xpt <- sd(g1) * 2
-    xpt <- (mean(g1)-mean(g2)) + 1.96*(sd(graph1())/sqrt(input$samples))
-    
-    #print(xpt)
-    #print(sd(g1))
+    #xpt <- (mean(g1)-mean(g2)) + 1.96*(sd(graph1())/sqrt(input$samples))
     
     plot(density(g1), main="", ylim=c(ymin(),ymax()), xlim=c(xmin(),xmax()))
     
-    polygon(density(shift(g2, importantdiff())), col="yellow")
+    polygon(density(shift(g2, importantdiff())), col="green")
     rect(xmin()-abs(xmin()),ymin(),xpt,ymax()+abs(ymax()),col="white",border="white")
     polygon(density(g1), border="blue")
     polygon(density(shift(g2, importantdiff())), border="red")
