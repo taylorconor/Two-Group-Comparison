@@ -9,13 +9,12 @@ library(shiny)
 
 shinyUI(fluidPage(
   
-  # Application title
   title = "Two Group Comparison",
-  h1("Two Group Study"),
+  h1("Two Group Comparison"),
   
   fluidRow(
     column(4,
-      br(),
+      br(),br(),br(),
       fileInput('file', 
                 'Choose file to upload', 
                 accept = c( 'text/csv', '.csv' )),
@@ -36,12 +35,12 @@ shinyUI(fluidPage(
         column(3,
           numericInput("xmin",
                       "X min",
-                      value = -0.2)
+                      value = -0.4)
         ),
         column(3,
           numericInput("xmax",
                        "X max",
-                       value = 0.4)
+                       value = 0.7)
         ),
         column(3,
           numericInput("ymin",
@@ -51,7 +50,7 @@ shinyUI(fluidPage(
         column(3,
           numericInput("ymax",
                       "Y max",
-                      value = 8)
+                      value = 5)
         )
       )
     )
