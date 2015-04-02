@@ -20,7 +20,7 @@ shinyUI(fluidPage(
                 accept = c( 'text/csv', '.csv' )),
       sliderInput("samples",
                   "Number of samples:",
-                  min = 2,
+                  min = 1,
                   max = 500,
                   value = 150),
       numericInput("importantdiff",

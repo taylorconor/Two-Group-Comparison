@@ -51,8 +51,7 @@ shinyServer(function(input, output) {
     
     # the point on the x axis where the 'green area' begins
     xpt <- sd(g1) * 1.96
-    #xpt <- (mean(g1)-mean(g2)) + 1.96*(sd(graph1())/sqrt(input$samples))
-
+    
     # calculate the % of the green area
     lx <- vector()
     ly <- vector()
